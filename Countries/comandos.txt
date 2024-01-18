@@ -1,0 +1,110 @@
+1.
+USE world;
+SHOW tables;
+SELECT countries.name, countries.continent, countries.region,languages.*
+FROM languages
+INNER JOIN countries
+ON languages.country_code = countries.code AND languages.language = 'Slovene'
+ORDER BY languages.percentage DESC
+
+2.
+
+USE world;
+SHOW tables;
+SELECT 
+    countries.name, COUNT(*) AS city_counter
+FROM
+    countries
+        JOIN
+    cities ON cities.country_code = countries.code
+GROUP BY countries.name
+ORDER BY city_counter DESC
+
+3.
+
+USE world;
+SHOW tables;
+SELECT 
+    name, district, population
+FROM
+    cities
+	WHERE country_code = 'MEX' AND population > 500000
+    ORDER BY population DESC
+
+4.
+
+SHOW tables;
+SELECT 
+    countries.name,
+    countries.code,
+    countries.continent,
+    countries.region,
+    languages.language,
+    languages.is_official,
+    languages.percentage
+FROM
+    languages
+        INNER JOIN
+    countries ON languages.country_code = countries.code AND languages.percentage > 89.0
+ORDER BY languages.percentage DESC
+
+5.
+
+USE world;
+SHOW tables;
+SELECT 
+    countries.name,
+    countries.code,
+    countries.continent,
+    countries.region,
+    countries.surface_area,
+    countries.population
+FROM
+    countries
+    WHERE countries.surface_area < 501 AND countries.population > 100000
+
+6.
+
+USE world;
+SHOW tables;
+SELECT 
+    countries.name,
+    countries.code,
+    countries.continent,
+    countries.region,
+    countries.government_form,
+    countries.capital,
+    countries.life_expectancy
+FROM
+    countries
+    WHERE countries.government_form = 'Constitutional Monarchy' AND
+    countries.capital > 200 AND
+    countries.life_expectancy > 75
+
+7.
+
+USE world;
+SHOW tables;
+SELECT 
+    countries.name AS country_name,
+    cities.name AS city_name,
+    cities.district,
+    cities.population
+FROM
+    countries
+        JOIN
+    cities ON countries.name = 'Argentina'
+        AND cities.district = 'Buenos Aires'
+        AND cities.population > 500000
+
+8.
+
+USE world;
+SHOW tables;
+SELECT 
+    countries.region, COUNT(*) AS number_of_countries
+FROM
+    countries
+GROUP BY countries.region
+ORDER BY number_of_countries DESC
+

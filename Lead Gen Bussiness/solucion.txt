@@ -1,0 +1,181 @@
+1.
+
+USE lead_gen_business;
+SHOW tables;
+SELECT 
+    SUM(billing.amount) AS profit
+FROM
+    billing
+where
+	billing.charged_datetime >= '2012/03/01' AND billing.charged_datetime < '2012/03/31'
+
+
+2.
+
+USE lead_gen_business;
+SHOW tables;
+SELECT 
+    SUM(billing.amount) AS profits
+FROM
+    billing
+where
+	billing.client_id = 2
+
+
+3.
+
+USE lead_gen_business;
+SHOW tables;
+SELECT 
+    sites.domain_name, sites.client_id
+FROM
+    sites
+WHERE
+    sites.client_id = 10
+
+
+4.
+
+
+USE lead_gen_business;
+SHOW tables;
+SELECT 
+    client_id,
+    COUNT(domain_name) AS number_of_domain,
+    MONTHNAME(created_datetime) AS month_created,
+    YEAR(created_datetime) AS year_created
+FROM
+    sites
+WHERE
+    client_id = 1
+GROUP BY domain_name
+
+_________
+
+USE lead_gen_business;
+SHOW tables;
+SELECT 
+    client_id,
+    COUNT(domain_name) AS number_of_domain,
+    MONTHNAME(created_datetime) AS month_created,
+    YEAR(created_datetime) AS year_created
+FROM
+    sites
+WHERE
+    client_id = 20
+GROUP BY domain_name
+
+
+5.
+
+USE lead_gen_business;
+SHOW tables;
+SELECT 
+    domain_name AS website,
+    COUNT(domain_name) AS number_of_leads,
+    DATE_FORMAT(created_datetime, '%M %d, %Y') AS date_generated
+FROM
+    sites
+WHERE
+    created_datetime >= '2011/01/01'
+        AND created_datetime < '2011/02/15'
+GROUP BY
+	domain_name
+
+
+6.
+
+USE lead_gen_business;
+SHOW tables;
+SELECT 
+    CONCAT(first_name, ' ', last_name) AS client_name,
+    COUNT(site_id) AS number_of_leads
+FROM
+    leads
+WHERE
+    registered_datetime >= '2011/01/01'
+        AND registered_datetime < '2011/12/31'
+GROUP BY
+	site_id
+
+
+
+7.
+
+USE lead_gen_business;
+SHOW tables;
+SELECT 
+    CONCAT(first_name, ' ', last_name) AS client_name,
+    COUNT(leads_id) AS number_of_leads,
+    MONTHNAME(registered_datetime)
+FROM
+    leads
+WHERE
+    registered_datetime >= '2011/01/01'
+        AND registered_datetime < '2011/06/30'
+GROUP BY leads_id
+
+
+8.
+
+
+USE lead_gen_business;
+SHOW tables;
+SELECT 
+    CONCAT(first_name, ' ', last_name) AS client_name,
+    sites.domain_name,
+    COUNT(sites.client_id) AS lead_counter
+FROM
+    sites
+        JOIN
+    clients ON clients.client_id = sites.client_id
+        AND sites.created_datetime >= '2011/01/01'
+        AND sites.created_datetime < '2011/12/31'
+GROUP BY sites.client_id
+
+
+USE lead_gen_business;
+SHOW tables;
+SELECT 
+    CONCAT(first_name, ' ', last_name) AS client_name,
+    sites.domain_name,
+    COUNT(sites.client_id) AS lead_counter
+FROM
+    sites
+        JOIN
+    clients ON clients.client_id = sites.client_id
+GROUP BY sites.client_id
+
+
+
+9.
+
+
+USE lead_gen_business;
+SHOW tables;
+SELECT 
+    client_id,
+    sum(amount),
+    MONTHNAME(charged_datetime),
+    YEAR(charged_datetime)
+FROM
+    billing
+GROUP BY MONTH(charged_datetime) , YEAR(charged_datetime)
+ORDER BY client_id
+
+
+
+10.
+
+USE lead_gen_business;
+SHOW tables;
+SELECT 
+    CONCAT(clients.first_name,
+            ' ',
+            clients.last_name) AS client_name,
+    GROUP_CONCAT(sites.domain_name)
+FROM
+    sites
+        JOIN
+    clients ON sites.client_id = clients.client_id
+GROUP BY clients.client_id
